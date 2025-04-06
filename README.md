@@ -1,1 +1,1 @@
-# SRTFileViewerJP2
+# SRTFileViewerJP

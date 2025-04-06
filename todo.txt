@@ -1,0 +1,5 @@
+sort by tite 
+add date of video 
+light mode dark mode
+SRTT+T
+SRT Thumbnail + Title
