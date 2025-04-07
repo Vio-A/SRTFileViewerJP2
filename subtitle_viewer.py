@@ -27,15 +27,13 @@ class SubtitleViewer(QMainWindow):
         self.setup_ui()
         self.setup_music_player()
         self.setup_status_bar()
-        search_shortcut = QShortcut(QKeySequence("Ctrl+F"), self)
-        search_shortcut.activated.connect(lambda: self.search_input.setFocus())
 
     def setup_font(self):
         font_id = QFontDatabase.addApplicationFont("NotoSerifJP-VariableFont_wght.ttf")
         font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
         self.custom_font = QFont(font_family, self.base_font_size)
         self.custom_font.setWeight(QFont.Medium)
-
+                
     def setup_ui(self):
         self.main_layout = QVBoxLayout()
         top_row = QHBoxLayout()
@@ -71,7 +69,7 @@ class SubtitleViewer(QMainWindow):
         self.search_input.setFont(self.custom_font)
         self.search_input.setPlaceholderText("検索...　「CTRL+F」")
         self.search_input.setClearButtonEnabled(True)
-        self.search_input.setFixedWidth(200)
+        self.search_input.setFixedWidth(220)
         self.search_input.textChanged.connect(self.filter_videos)
         top_row.addWidget(self.search_input)
         
@@ -99,10 +97,6 @@ class SubtitleViewer(QMainWindow):
         central_widget.setLayout(self.main_layout)
         self.setCentralWidget(central_widget)
 
-
-
-        
-
     def setup_music_player(self):
         self.media_player = QMediaPlayer()
         self.media_player.setMedia(QMediaContent(QUrl.fromLocalFile("song.mp3")))
@@ -119,8 +113,7 @@ class SubtitleViewer(QMainWindow):
         music_layout.setAlignment(Qt.AlignCenter)
         
         self.mute_button = QToolButton()
-        self.mute_button.setText("(/ω＼)")
-        self.mute_button.setFixedWidth(60)
+        self.mute_button.setText("🔇") 
         self.mute_button.clicked.connect(self.toggle_music)
         music_layout.addWidget(self.mute_button)
         
@@ -286,7 +279,6 @@ class SubtitleViewer(QMainWindow):
             widget["title_label"].setFont(self.custom_font)
             widget["title_label"].setFixedWidth(title_width)
             
-    
             overlay = widget["date_overlay"]
             overlay.setFont(self.custom_font)
             
@@ -298,12 +290,8 @@ class SubtitleViewer(QMainWindow):
                 int(6 * margin_scale)
             )
             
-            min_width = max(200, int(new_width * 0.7))  
-            overlay.setMinimumWidth(min_width)
-            
-
-            overlay.setMaximumWidth(int(new_width * 1.2))  
-            
+            overlay.setMinimumWidth(max(200, int(new_width * 0.7)))
+            overlay.setMaximumWidth(int(new_width * 1.2))
             overlay.adjustSize()
 
     def filter_videos(self, search_text):
@@ -336,8 +324,6 @@ class SubtitleViewer(QMainWindow):
                     overlay = data["date_overlay"]
                     global_pos = watched.mapToGlobal(QPoint(0, 0))
                     viewport_pos = self.scroll_area.viewport().mapFromGlobal(global_pos)
-                    
-                    
                     overlay.adjustSize()  
                     overlay.move(
                         viewport_pos.x() + (watched.width() - overlay.width()) // 2,
@@ -367,10 +353,7 @@ class SubtitleViewer(QMainWindow):
         videos = []
         for video_id, widget_data in self.video_widgets.items():
             title = widget_data["title_label"].text()
-            upload_date = getattr(widget_data.get("date_overlay", None), "text", lambda: "Unknown")()
-            if "アップロード日: " in upload_date:
-                upload_date = upload_date.replace("アップロード日: ", "")
-            
+            upload_date = widget_data["date_overlay"].text().replace("アップロード日: ", "")
             videos.append({
                 "video_id": video_id,
                 "title": title,
@@ -394,14 +377,10 @@ class SubtitleViewer(QMainWindow):
     def resizeEvent(self, event):
         if not self.resizing and self.video_widgets:
             self.resizing = True
-            window_width = self.width()
-            new_thumb_width = max(200, min(400, int(window_width * 0.35)))
-            
+            new_thumb_width = max(200, min(400, int(self.width() * 0.35)))
             self.size_slider.blockSignals(True)
             self.size_slider.setValue(new_thumb_width)
             self.size_slider.blockSignals(False)
-            
             self._update_sizes(new_thumb_width)
-            
             self.resizing = False
         super().resizeEvent(event)
