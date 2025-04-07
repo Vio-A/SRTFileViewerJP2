@@ -18,11 +18,11 @@ def get_black_white_theme():
         }
 
         QToolButton#linkButton {
-            padding: 6px;
-            min-width: 30px;
-            max-width: 30px;
-            min-height: 30px;
-            max-height: 30px;
+            padding: 4px; 
+            min-width: 24px;  
+            max-width: 24px; 
+            min-height: 24px; 
+            max-height: 24px;  
         }
         /* Add this style for the date overlay */
         QLabel#dateOverlay {

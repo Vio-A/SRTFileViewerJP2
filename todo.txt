@@ -3,3 +3,14 @@ add date of video
 light mode dark mode
 SRTT+T
 SRT Thumbnail + Title
+add video id under Title
+light and dark mode
+fix ctrl f 
+
+
+
+
+-----
+
+
+use case is extremely niche 
