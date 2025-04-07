@@ -99,6 +99,10 @@ class SubtitleViewer(QMainWindow):
         central_widget.setLayout(self.main_layout)
         self.setCentralWidget(central_widget)
 
+
+
+        
+
     def setup_music_player(self):
         self.media_player = QMediaPlayer()
         self.media_player.setMedia(QMediaContent(QUrl.fromLocalFile("song.mp3")))
@@ -115,8 +119,8 @@ class SubtitleViewer(QMainWindow):
         music_layout.setAlignment(Qt.AlignCenter)
         
         self.mute_button = QToolButton()
-        self.mute_button.setText("🔇")
-        self.mute_button.setFixedSize(36, 36)
+        self.mute_button.setText("(/ω＼)")
+        self.mute_button.setFixedWidth(60)
         self.mute_button.clicked.connect(self.toggle_music)
         music_layout.addWidget(self.mute_button)
         

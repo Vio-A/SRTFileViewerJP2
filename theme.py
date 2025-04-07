@@ -3,7 +3,7 @@ def get_black_white_theme():
         QWidget {
             background-color: rgba(245, 245, 245, 0.85);
             color: #202020;
-            font-family: "Segoe UI", sans-serif;
+            
         }
         QPushButton, QToolButton {
             background-color: rgba(240, 240, 240, 0.8);
@@ -16,6 +16,7 @@ def get_black_white_theme():
             background-color: rgba(225, 225, 225, 0.9);
             border: 1px solid rgba(150, 150, 150, 0.8);
         }
+
         QToolButton#linkButton {
             padding: 6px;
             min-width: 30px;

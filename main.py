@@ -8,4 +8,4 @@ if __name__ == "__main__":
     app.setStyleSheet(get_black_white_theme() + "QStatusBar::item {border: none;}")
     viewer = SubtitleViewer()
     viewer.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec_())  
