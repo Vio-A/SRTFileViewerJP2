@@ -17,7 +17,7 @@ class SubtitleViewer(QMainWindow):
         super().__init__()
         self.setWindowTitle("SRT Thumbnail + Title Viewer")
         self.setGeometry(100, 100, 800, 1000)
-        self.setWindowIcon(QIcon("icon.png"))
+        self.setWindowIcon(QIcon("icon2.png"))
         self.video_widgets = {}
         self.thumbnail_size = (320, 180)
         self.base_font_size = 14
@@ -27,6 +27,13 @@ class SubtitleViewer(QMainWindow):
         self.setup_ui()
         self.setup_music_player()
         self.setup_status_bar()
+
+        self.search_shortcut = QShortcut(QKeySequence("Ctrl+F"), self)
+        self.search_shortcut.activated.connect(self.focus_search)
+
+    def focus_search(self):
+        self.search_input.setFocus()
+        self.search_input.selectAll()
 
     def setup_font(self):
         font_id = QFontDatabase.addApplicationFont("NotoSerifJP-VariableFont_wght.ttf")

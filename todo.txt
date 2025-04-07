@@ -6,6 +6,7 @@ SRT Thumbnail + Title
 add video id under Title
 light and dark mode
 fix ctrl f 
+add app icon
 
 
 
