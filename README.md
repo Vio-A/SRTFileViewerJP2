@@ -17,3 +17,26 @@
 ----
 https://github.com/user-attachments/assets/4585f862-c51c-4da1-b49f-3c1d7e5f43bf
 
+
+
+## why?
+
+I frequently mine words through software to create flashcards. 
+
+I need to download the video and then either download youtube's auto sub (unreliable) or transcribe one myself.
+
+At the start I was using janky scripts that left some of the early viewed videos with just the video ID. 
+
+Later on I fixed this to include the title.
+
+After I finish the video, I delete it but keep the .srt since they're so tiny. 
+
+Over time, I amass many .srt files from all the videos I watch.
+
+With this program, I can visually view the many videos I've previously mined from.
+
+I believe it's quite a niche use-case.
+
+
+
+
