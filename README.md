@@ -15,7 +15,7 @@
 - FINAL FANTASY XV   4K **[SesUZ_6yg-U]**.srt
 
 ----
-https://github.com/user-attachments/assets/4585f862-c51c-4da1-b49f-3c1d7e5f43bf
+_add gifs here_
 
 
 
