@@ -4,7 +4,7 @@
 2. Will fetch thumbnail + title of that youtube video through the YT Video ID
 3. ta-da~
 
-## Example of SRT files
+## Example of SRT filenames
 
 - **[R8gcRB0MoJQ]**.srt
 
