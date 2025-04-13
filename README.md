@@ -15,9 +15,8 @@
 - FINAL FANTASY XV   4K **[SesUZ_6yg-U]**.srt
 
 ----
-_add gifs here_
 
-
+![gif](https://github.com/user-attachments/assets/aa42cc29-0c23-4818-809a-42ac1e58d84d)
 
 ## why?
 
