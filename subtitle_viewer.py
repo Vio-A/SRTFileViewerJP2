@@ -28,8 +28,10 @@ class SubtitleViewer(QMainWindow):
         self.setup_music_player()
         self.setup_status_bar()
 
-        self.search_shortcut = QShortcut(QKeySequence("Ctrl+F"), self)
+        self.search_shortcut = QShortcut(QKeySequence("⌘+F"), self)
         self.search_shortcut.activated.connect(self.focus_search)
+
+        self.setFocus()
 
     def focus_search(self):
         self.search_input.setFocus()
