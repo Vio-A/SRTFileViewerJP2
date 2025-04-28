@@ -21,6 +21,7 @@ class SubtitleViewer(QMainWindow):
         self.base_font_size = 14
         self.current_font_size = self.base_font_size
         self.resizing = False
+        self.setAcceptDrops(True)
         self.setup_font()
         self.setup_ui()
         self.setup_status_bar()
@@ -153,17 +154,29 @@ class SubtitleViewer(QMainWindow):
         self.setStatusBar(self.status_bar)
 
     def select_folder(self):
-        folder_path = QFileDialog.getExistingDirectory(self, "Select Folder")
+        """Opens a dialog to select a folder."""
+        folder_path = QFileDialog.getExistingDirectory(self, "フォルダー選択", "") # Start in default directory
+        if folder_path:
+            self.load_folder_contents(folder_path)
+
+    def load_folder_contents(self, folder_path):
+        """Loads video data from the specified folder path."""
         if folder_path:
             self.video_widgets.clear()
             self.search_input.clear()
-            video_data = load_subtitle_files(folder_path)
-            if video_data:
-                self.display_videos(video_data)
-                self.load_thumbnails(video_data)
+            try:
+                video_data = load_subtitle_files(folder_path)
+                if video_data:
+                    self.display_videos(video_data)
+                    self.update_status_label()
+                else:
+                    self.update_status_label()
+            except Exception as e:
+                print(f"Error processing folder {folder_path}: {e}")
+                self.update_status_label()
 
     def display_videos(self, video_data):
-        for i in range(self.scroll_layout.count() - 1, -1, -1):
+        for i in range(self.scroll_layout.count() - 1, -1,):
             self.scroll_layout.itemAt(i).widget().deleteLater()
         self.video_widgets.clear()
 
@@ -397,3 +410,26 @@ class SubtitleViewer(QMainWindow):
             self._update_sizes(new_thumb_width)
             self.resizing = False
         super().resizeEvent(event)
+
+    def dragEnterEvent(self, event):
+        mime_data = event.mimeData()
+        if mime_data.hasUrls():
+            url = mime_data.urls()[0]
+            if url.isLocalFile() and os.path.isdir(url.toLocalFile()):
+                event.acceptProposedAction() 
+        else:
+            event.ignore()
+
+    def dropEvent(self, event):
+        mime_data = event.mimeData()
+        if mime_data.hasUrls():
+            url = mime_data.urls()[0]
+            folder_path = url.toLocalFile()
+            if url.isLocalFile() and os.path.isdir(folder_path):
+                print(f"Folder dropped: {folder_path}")
+                self.load_folder_contents(folder_path)
+                event.acceptProposedAction()
+            else:
+                event.ignore()
+        else:
+            event.ignore()
