@@ -9,3 +9,4 @@ if __name__ == "__main__":
     viewer = SubtitleViewer()
     viewer.show()
     sys.exit(app.exec_())
+    
