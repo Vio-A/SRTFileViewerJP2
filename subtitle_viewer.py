@@ -6,10 +6,8 @@ from PyQt5.QtWidgets import (
     QScrollArea, QWidget, QHBoxLayout, QToolButton, QSlider, QStatusBar, 
     QLineEdit, QShortcut, QMenu, QAction)
 from PyQt5.QtGui import QPixmap, QFontDatabase, QFont, QIcon, QKeySequence
-from PyQt5.QtCore import Qt, QUrl, QPoint, QEvent
-from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
+from PyQt5.QtCore import Qt, QPoint, QEvent
 from thumbnail_loader import ThumbnailLoader
-from music_player import MusicVisualizer
 from utils import load_subtitle_files
 
 class SubtitleViewer(QMainWindow):
@@ -25,7 +23,6 @@ class SubtitleViewer(QMainWindow):
         self.resizing = False
         self.setup_font()
         self.setup_ui()
-        self.setup_music_player()
         self.setup_status_bar()
 
         self.search_shortcut = QShortcut(QKeySequence("⌘+F"), self)
@@ -149,47 +146,11 @@ class SubtitleViewer(QMainWindow):
         central_widget.setLayout(self.main_layout)
         self.setCentralWidget(central_widget)
 
-    def setup_music_player(self):
-        self.media_player = QMediaPlayer()
-        self.media_player.setMedia(QMediaContent(QUrl.fromLocalFile("song.mp3")))
-        self.media_player.setVolume(20)
-        self.media_player.play()
-        self.media_player.setMuted(True)
-
-        music_container = QWidget()
-        music_container.setObjectName("musicContainer")
-        
-        music_layout = QHBoxLayout(music_container)
-        music_layout.setContentsMargins(8, 4, 8, 4)
-        music_layout.setSpacing(8)
-        music_layout.setAlignment(Qt.AlignCenter)
-        
-        self.mute_button = QToolButton()
-        self.mute_button.setText("🔇") 
-        self.mute_button.clicked.connect(self.toggle_music)
-        music_layout.addWidget(self.mute_button)
-        
-        self.visualizer = MusicVisualizer(self.media_player)
-        music_layout.addWidget(self.visualizer)
-        
-        container_layout = QHBoxLayout()
-        container_layout.addStretch(1)
-        container_layout.addWidget(music_container)
-        container_layout.addStretch(1)
-        
-        self.main_layout.addLayout(container_layout)
-
     def setup_status_bar(self):
         self.status_bar = QStatusBar()
         self.status_label = QLabel("")
         self.status_bar.addWidget(self.status_label)
         self.setStatusBar(self.status_bar)
-
-    def toggle_music(self):
-        is_muted = self.media_player.isMuted()
-        self.media_player.setMuted(not is_muted)
-        self.mute_button.setText("🔊" if is_muted else "🔇")
-        self.visualizer.update()
 
     def select_folder(self):
         folder_path = QFileDialog.getExistingDirectory(self, "Select Folder")
