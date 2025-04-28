@@ -36,9 +36,52 @@ class SubtitleViewer(QMainWindow):
         self.search_input.selectAll()
 
     def setup_font(self):
-        font_id = QFontDatabase.addApplicationFont("NotoSerifJP-VariableFont_wght.ttf")
-        font_family = QFontDatabase.applicationFontFamilies(font_id)[0]
-        self.custom_font = QFont(font_family, self.base_font_size)
+        from PyQt5.QtGui import QFontDatabase, QFont
+        import os
+        import platform
+
+        self.base_font_size = 13
+        self.title_font_size = 16 
+
+        self.custom_font = QFont("Helvetica", self.base_font_size) #basic fallback
+
+        if platform.system() == "Darwin":
+            print("Running on macOS, attempting to load system Japanese fonts...")
+            japanese_fonts = ["Hiragino Sans", "Hiragino Kaku Gothic Pro", "Apple SD Gothic Neo"]
+            found_font = False
+            font_db = QFontDatabase()
+            available_families = font_db.families()
+
+            for font_name in japanese_fonts:
+                if font_name in available_families:
+                    self.custom_font = QFont(font_name, self.base_font_size)
+                    print(f"Using macOS system font: {font_name}")
+                    found_font = True
+                    break
+
+            if not found_font:
+                print("Warning: No suitable Japanese system font found on macOS. Using default.")
+
+        else:
+            print("Running on non-macOS system, attempting to load custom font...")
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            font_path = os.path.join(current_dir, "NotoSerifJP-VariableFont_wght.ttf")
+
+            if os.path.exists(font_path):
+                font_id = QFontDatabase.addApplicationFont(font_path)
+                if font_id != -1:
+                    font_families = QFontDatabase.applicationFontFamilies(font_id)
+                    if font_families:
+                        font_family = font_families[0]
+                        self.custom_font = QFont(font_family, self.base_font_size)
+                        print(f"Successfully loaded custom font: {font_family}")
+                    else:
+                        print(f"Warning: Custom font '{os.path.basename(font_path)}' loaded (id={font_id}) but reported no families. Using default.")
+                else:
+                    print(f"Warning: Failed to load custom font from {font_path} (id={font_id}). Using default.")
+            else:
+                print(f"Warning: Custom font file not found at {font_path}. Using default.")
+
         self.custom_font.setWeight(QFont.Medium)
                 
     def setup_ui(self):
@@ -74,7 +117,7 @@ class SubtitleViewer(QMainWindow):
         
         self.search_input = QLineEdit()
         self.search_input.setFont(self.custom_font)
-        self.search_input.setPlaceholderText("検索...　「CTRL+F」")
+        self.search_input.setPlaceholderText("検索...　「⌘+F」")
         self.search_input.setClearButtonEnabled(True)
         self.search_input.setFixedWidth(220)
         self.search_input.textChanged.connect(self.filter_videos)
